@@ -1,0 +1,81 @@
+---
+title: "Task 1 - Decathlon Data"
+author: "Chris Proudfoot"
+date: "21/07/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r warning=FALSE,message=FALSE}
+library(tidyverse)
+decathlon <- read_csv("/Users/christopherproudfoot/codeclan_work/dirty_data-project/task1/clean_data/decathlon_trimmed.csv")
+```
+
+
+### 1. Who had the longest long jump seen in the data?
+
+```{r}
+longest_long_jump <- decathlon %>%
+  arrange(desc(long_jump)) %>%
+  head(1)
+
+longest_long_jump
+```
+To get the greatest distance for the long jump I use the arrange function then took the first row. This gave me the output of athlete Clay at a distance of 7.96 m.
+
+### 2. What was the average 100m time in each competition?
+
+```{r}
+average_100m <- decathlon %>%
+  group_by(competition) %>%
+  summarise(mean_100m = mean(x100m))
+  
+average_100m
+```
+To get the mean of the 100m I used the mean function on the 100m variable inside th summarise functions. I then grouped them by competition which gave the output Decastar 11.18 (4sf) and OlympicG 10.92 (4sf).
+
+### 3. Who had the highest total points across both competitions?
+
+```{r}
+decathlon_champ <- decathlon %>%
+  select(id, name, points, competition) %>%
+  group_by(competition) %>%
+  filter(points == max(points))
+  
+decathlon_champ
+```
+Here grouping by the competition and then filtering using the max function I was able to find the highest point scorer in each competition, which was Sebrle in both cases.
+
+### 4. What was the shot-put scores for the top three competitors in each competition?
+
+```{r}
+podium_shot_put <- decathlon %>%
+  select(id, name, shot_put, rank, competition) %>%
+  filter(rank <= 3) %>%
+  arrange(competition, rank)
+
+podium_shot_put
+```
+
+To get the top three competitors I filtered in anyone with a rank of 3 or lower which returned competitors 1 to 3. There shot_put scores are displayed above.
+
+### 5. What was the average points for competitors who ran the 400m in less than 50 seconds vs. those than ran 400m in more than 50 seconds?
+
+```{r}
+average_400m <- decathlon %>%
+  group_by(x400m < 50, x400m > 50) %>%
+  summarise(mean_points = mean(points)) 
+  
+
+average_400m
+```
+Here I create two groups one for competitors that were faster than 50 seconds and one for competitors that were slower. I then summarise these two groups with the mean value of there points. On average competitors that where faster than 50 seconds scored 8120.483 and competitors that where slower th 50 seconds scored 7727.167.
+
+
+
+
+
+
