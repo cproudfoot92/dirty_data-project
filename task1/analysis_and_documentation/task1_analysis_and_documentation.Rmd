@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r warning=FALSE,message=FALSE}
 library(tidyverse)
-decathlon <- read_csv("/Users/christopherproudfoot/codeclan_work/dirty_data-project/task1/clean_data/decathlon_trimmed.csv")
+library(here)
+decathlon <- read_csv(here("clean_data/decathlon_trimmed.csv"))
 ```
 
 

@@ -1,0 +1,88 @@
+---
+title: "Task 2 - Cake ingredients"
+author: "Chris Proudfoot"
+date: "22/07/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r warning=FALSE,message=FALSE}
+library(tidyverse)
+library(here)
+cake_ingredients <- read_csv(here("clean_data/cake_ingredients_clean.csv"))
+```
+
+
+### 1. Which cake has the most cocoa in it?
+
+
+```{r}
+most_cocoa <- cake_ingredients %>%
+  filter(ingredient == "cocoa") %>%
+  arrange(desc(amount)) %>%
+  head(1)
+
+most_cocoa
+```
+Here I filtered out any cake with cocoa as an ingredient then arranged them in descending order from highest to lowest. I then took the top cake which was one bowl chocolate.
+
+
+### 2. For sponge cake, how many cups of ingredients are used in total?
+
+
+```{r}
+cups_in_sponge <- cake_ingredients %>%
+  filter(cake == "sponge",
+         measure == "cup") %>%
+  summarise(amount_of_cups = sum(amount))
+
+cups_in_sponge
+```
+
+
+
+### 3. How many ingredients are measured in teaspoons?
+
+
+```{r}
+ingredients_in_tsp <- cake_ingredients %>%
+  select(ingredient, measure) %>%
+  group_by(measure) %>%
+  distinct(ingredient) %>%
+  filter(measure == "teaspoon") %>%
+  count(measure)
+
+ingredients_in_tsp
+```
+Here by grouping by the measurements and using the distinct function which returns one of each unique item in ingredient I was able to find out which ingredient use which unit of measurement. I then used the count function to return to total amount of ingredients that use the teaspoon as a measurement.
+
+NOTE. Sour creams measurement field is NA and it's measurement cup is attached to the ingredient name 'sour cream cup'. this did not affect answering the questions asked so I decided to leave it as is.
+
+
+### 4. Which cake has the most unique ingredients?
+
+```{r}
+unique_ingredients <- cake_ingredients %>%
+  group_by(cake) %>%
+  summarise(num_ingredients = n()) %>%
+  arrange(desc(num_ingredients))
+
+unique_ingredients
+```
+As the dataset is essentially a list of ingredients, I used the summarise function to count how many times each cake appeared in the list. It was a drew for the most ingredient with babas au rhum and one bowl chocolate.
+
+
+### 5. Which ingredients are used only once?
+
+```{r}
+one_use_ingredients <- cake_ingredients %>%
+  group_by(ingredient) %>%
+  filter(n() == 1) %>%
+  select(ingredient)
+
+one_use_ingredients
+```
+Here I grouped everything by ingredients and then return only the groups of one. 

@@ -1,0 +1,157 @@
+cake,code,ingredient,measure,amount
+angel,AE,almond essence,teaspoon,0.25
+angel,CT,cream of tartar,teaspoon,1.25
+angel,EW,egg white,one,10
+angel,FR,sifted flour,cup,1
+angel,SR,granulated sugar,cup,1.5
+angel,ST,salt,teaspoon,0.25
+angel,VE,vanilla extract,teaspoon,1
+babas au rhum,BR,butter,cup,0.25
+babas au rhum,DC,dried currants,tablespoon,3
+babas au rhum,EG,eggs,one,1
+babas au rhum,EY,egg yolk,one,2
+babas au rhum,FR,sifted flour,cup,1.75
+babas au rhum,LR,lemon rind,teaspoon,0.5
+babas au rhum,MK,milk,cup,0.25
+babas au rhum,RM,rum,ounce,2
+babas au rhum,SR,granulated sugar,cup,0.25
+babas au rhum,WR,water,cup,0.25
+babas au rhum,YT,yeast,ounce,0.6
+sweet chocolate,BR,butter,cup,1
+sweet chocolate,CE,chocolate,ounce,4
+sweet chocolate,EG,eggs,one,4
+sweet chocolate,FR,sifted flour,cup,2.5
+sweet chocolate,MK,milk,cup,1
+sweet chocolate,SA,soda,teaspoon,1
+sweet chocolate,SR,granulated sugar,cup,2
+sweet chocolate,ST,salt,teaspoon,0.5
+sweet chocolate,VE,vanilla extract,teaspoon,1
+sweet chocolate,WR,water,cup,0.5
+buche de noel,EG,eggs,one,4
+buche de noel,FR,sifted flour,cup,1
+buche de noel,SR,granulated sugar,cup,1.3
+buche de noel,ST,salt,teaspoon,0.5
+buche de noel,VE,vanilla extract,teaspoon,1
+cheesecake,BR,butter,cup,0.25
+cheesecake,CC,cottage cheese,pound,1.5
+cheesecake,EG,eggs,one,6
+cheesecake,FR,sifted flour,cup,0.25
+cheesecake,LJ,lemon juice,tablespoon,1
+cheesecake,LR,lemon rind,teaspoon,1
+cheesecake,SC,sour cream cup,NA,1
+cheesecake,SR,granulated sugar,cup,1
+cheesecake,ST,salt,teaspoon,0.25
+cheesecake,ZH,zwiebach,ounce,6
+rum cheesecake,CC,cottage cheese,pound,1.5
+rum cheesecake,EG,eggs,one,2
+rum cheesecake,GN,gelatin,tablespoon,2
+rum cheesecake,HC,heavy cream,cup,1
+rum cheesecake,LJ,lemon juice,tablespoon,1
+rum cheesecake,LR,lemon rind,teaspoon,1
+rum cheesecake,MK,milk,cup,1
+rum cheesecake,RM,rum,ounce,1
+rum cheesecake,SR,granulated sugar,cup,1
+rum cheesecake,ST,salt,teaspoon,0.25
+blender cheesecake,CC,cottage cheese,pound,0.5
+blender cheesecake,CI,crushed ice,cup,1
+blender cheesecake,CS,crumbs,cup,0.3
+blender cheesecake,EY,egg yolk,one,2
+blender cheesecake,GN,gelatin,tablespoon,1
+blender cheesecake,LJ,lemon juice,tablespoon,1
+blender cheesecake,LR,lemon rind,teaspoon,1
+blender cheesecake,SC,sour cream cup,NA,1
+blender cheesecake,WR,water,cup,0.5
+one bowl chocolate,BP,baking powder,teaspoon,2
+one bowl chocolate,CA,cocoa,tablespoon,10
+one bowl chocolate,EG,eggs,one,2
+one bowl chocolate,FR,sifted flour,cup,2
+one bowl chocolate,MK,milk,cup,0.7
+one bowl chocolate,SA,soda,teaspoon,0.5
+one bowl chocolate,SG,shortening,tablespoon,10
+one bowl chocolate,SR,granulated sugar,cup,1.5
+one bowl chocolate,ST,salt,teaspoon,0.25
+one bowl chocolate,VE,vanilla extract,teaspoon,1
+one bowl chocolate,WR,water,cup,0.5
+red devil's food,CA,cocoa,tablespoon,0.3
+red devil's food,EG,eggs,one,2
+red devil's food,FR,sifted flour,cup,1.75
+red devil's food,MK,milk,cup,1
+red devil's food,SA,soda,teaspoon,1.25
+red devil's food,SG,shortening,tablespoon,0.5
+red devil's food,SR,granulated sugar,cup,1.5
+red devil's food,ST,salt,teaspoon,1
+red devil's food,VE,vanilla extract,teaspoon,1
+sour cream fudge,CE,chocolate,ounce,3
+sour cream fudge,EG,eggs,one,2
+sour cream fudge,FR,sifted flour,cup,2
+sour cream fudge,SA,soda,teaspoon,1
+sour cream fudge,SC,sour cream cup,NA,1
+sour cream fudge,SG,shortening,tablespoon,0.3
+sour cream fudge,SR,granulated sugar,cup,1.5
+sour cream fudge,ST,salt,teaspoon,1
+sour cream fudge,VE,vanilla extract,teaspoon,1
+sour cream fudge,WR,water,cup,0.25
+hungarian cream,AE,almond essence,teaspoon,1.5
+hungarian cream,BP,baking powder,teaspoon,3
+hungarian cream,EG,eggs,one,3
+hungarian cream,FR,sifted flour,cup,3
+hungarian cream,HC,heavy cream,cup,2
+hungarian cream,SR,granulated sugar,cup,1.5
+hungarian cream,ST,salt,teaspoon,1
+hungarian cream,VE,vanilla extract,teaspoon,2
+crumb and nut,BP,baking powder,teaspoon,3
+crumb and nut,CS,crumbs,cup,3
+crumb and nut,EG,eggs,one,4
+crumb and nut,MK,milk,cup,1
+crumb and nut,NS,nuts,cup,1
+crumb and nut,SG,shortening,tablespoon,1
+crumb and nut,SR,granulated sugar,cup,1
+crumb and nut,VE,vanilla extract,teaspoon,2
+spiced pound,BR,butter,cup,1
+spiced pound,EG,eggs,one,5
+spiced pound,FR,sifted flour,cup,2
+spiced pound,NG,nutmeg,teaspoon,1.5
+spiced pound,SR,granulated sugar,cup,1.7
+spiced pound,ST,salt,teaspoon,0.5
+strawberry roll,BP,baking powder,teaspoon,0.75
+strawberry roll,CC,cottage cheese,pound,0.5
+strawberry roll,EG,eggs,one,4
+strawberry roll,FR,sifted flour,cup,0.75
+strawberry roll,SR,granulated sugar,cup,0.75
+strawberry roll,SS,strawberries,quart,1
+strawberry roll,ST,salt,teaspoon,1
+strawberry roll,VE,vanilla extract,teaspoon,1
+savarin,BR,butter,cup,0.7
+savarin,EG,eggs,one,3
+savarin,FR,sifted flour,cup,1.5
+savarin,LR,lemon rind,teaspoon,1
+savarin,MK,milk,cup,0.25
+savarin,SR,granulated sugar,cup,0.6
+savarin,ST,salt,teaspoon,0.5
+savarin,WR,water,cup,0.25
+savarin,YT,yeast,ounce,1
+banana shortcake,BP,baking powder,teaspoon,4
+banana shortcake,BR,butter,cup,0.6
+banana shortcake,BS,bananas,one,3
+banana shortcake,FR,sifted flour,cup,3
+banana shortcake,HC,heavy cream,cup,1
+banana shortcake,MK,milk,cup,1
+banana shortcake,SR,granulated sugar,cup,0.13
+banana shortcake,ST,salt,teaspoon,0.5
+strawberry shortcake,BP,baking powder,teaspoon,3
+strawberry shortcake,BR,butter,cup,0.12
+strawberry shortcake,CC,cottage cheese,pound,0.2
+strawberry shortcake,EG,eggs,one,1
+strawberry shortcake,FR,sifted flour,cup,2
+strawberry shortcake,MK,milk,cup,0.5
+strawberry shortcake,SC,sour cream cup,NA,1
+strawberry shortcake,SR,granulated sugar,cup,0.6
+strawberry shortcake,SS,strawberries,quart,1
+strawberry shortcake,ST,salt,teaspoon,0.75
+sponge,AE,almond essence,teaspoon,0.5
+sponge,BP,baking powder,teaspoon,1
+sponge,EG,eggs,one,4
+sponge,FR,sifted flour,cup,0.75
+sponge,SR,granulated sugar,cup,0.75
+sponge,ST,salt,teaspoon,0.25
+sponge,WR,water,cup,2
