@@ -159,7 +159,7 @@ age_clean <- boing_candy_long %>%
            str_extract(age, "[1-9]*")
          ) %>%
   mutate(clean_age = 
-           case_when(clean_age > 122, NA))
+           if_else(clean_age <= 122, clean_age, NA))
 
 ordered_age <- age_clean %>%
   select(clean_age) %>%
