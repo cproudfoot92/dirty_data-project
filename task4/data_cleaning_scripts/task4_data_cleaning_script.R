@@ -154,46 +154,94 @@ boing_candy_long <- boing_candy_wide %>%
                   "x100_grand_bar" = "100_grand_bar",
                   "york_peppermint_patties_ignore" = "york_peppermint_patties")
          ) 
-age_clean <- boing_candy_long %>%
+
+# Looked into integrating the other joy/despair columns into the candy but there were far too many entries to clean.
+# mutate(
+#   other_joy = str_split(other_joy, ",")
+# ) %>%
+# unnest(other_joy) %>%
+# mutate(other_joy = tolower(other_joy)) %>%
+# select(-other_dispair, -other_joy)
+
+# clean age column
+age_cleaned <- boing_candy_long %>%
+# extract all numeric data from age
   mutate(clean_age = 
-           str_extract(age, "[1-9]*")
+           str_extract(age, "[0-9]*.")
          ) %>%
+  mutate(clean_age = as.integer(clean_age)
+         ) %>%
+# Remove any age over the 122
   mutate(clean_age = 
-           if_else(clean_age <= 122, clean_age, NA))
+           if_else(clean_age <= 122, clean_age, NA_integer_)
+         ) %>%
+# I made the assumption that the numbers in the country column were ages incorrectly filled out.
+# I extracted all the numeric data from the country column.
+  mutate(country_age = 
+           str_extract(country, "[0-9]*.")
+         ) %>%
+  mutate(country_age = as.integer(country_age)
+         ) %>%
+# Combined the two extracted age variables and replaced the old age column.
+  mutate(age = 
+           coalesce(clean_age, country_age)
+         ) %>%
+  select(-clean_age, -country_age, -other_dispair, -other_joy)
 
-ordered_age <- age_clean %>%
-  select(clean_age) %>%
-  arrange(clean_age) %>%
-  distinct(clean_age)
+# create patterns for srt_detect
+usa_pattern <- "[u]* [s]* [a]|usa|ussa|us|
+u s|united s|united  s|unhinged|unied|unite |
+unites states|units|merica|yoo|amerca|alaska|california|
+cascadia|fear|murica|murrika|new jersey|new york|
+|north carolina|pittsburgh|republic|ud|trumpistan|u s|unites states|cascadia"
+
+uk_pattern <- "endland|england|scotland|uk|united k"
+
+canada_pattern <- "can|canada`|canae"
+
+na_pattern <- "a |atlantis|denial|earth|gods country|
+i dont know anymore|insanity lately|narnia|neverland|
+one of best ones|see above|somewhere|subscribe to dmuz on youtube|
+there isnt one for old men|this one|i dont know anymore|one of best ones|there isnt one for old men"
+
+# Clean country column.  
+countries_cleaned <- age_cleaned %>%
+# remove punctuation.
+  mutate(country =
+           str_remove_all(country, "[[:punct:]]")
+         ) %>%
+# remove the ages from the column
+  mutate(country =
+           str_remove_all(country, "[0-9]")
+         ) %>%
+  mutate(country =
+           str_to_lower(country)
+         ) %>%
+  mutate(country =
+           str_remove_all(country, "the ")
+         ) %>%
+#combine any duplicate countries together using case_when and str_detect
+  mutate(country =
+           case_when(str_detect(country, usa_pattern) ~ "united states",
+                     str_detect(country, uk_pattern) ~ "united kingdom",
+                     str_detect(country, canada_pattern) ~ "canada",
+                     str_detect(country, na_pattern) ~ as.character(NA),
+                     country == "a" ~ as.character(NA),
+                     country == "españa" ~ "spain",
+                     country == "eua" ~ "europe",
+                     country == "uae" ~ "united arab emirates",
+                     TRUE ~ country)
+         ) %>%
+  mutate(country =
+           str_to_title(country)
+         )
   
-# clean_countries <- boing_candy_long %>%
-#   mutate(age = if_else(age == NA & str_detect(country, "[1-9]"), country, as.character(NA))
-#          ) %>%
-#   mutate(country =
-#            str_to_lower(country)
-#          ) %>%
-#   mutate(country = 
-#            str_remove_all(country, "[[:punct:]]"))
+boing_candy_clean <- clean_countries %>%
+  filter(!is.na(rating))
   
-age_country <- boing_candy_long %>%
-  filter(str_detect(country, "[1-9]"))
+write.csv(boing_candy_clean, "clean_data/boing_candy_clean.csv")
   
-  # Looked into integrating the other joy/despair columns into the candy but there were far too many entries to clean.
-  # mutate(
-  #   other_joy = str_split(other_joy, ",")
-  # ) %>%
-  # unnest(other_joy) %>%
-  # mutate(other_joy = tolower(other_joy)) %>%
-  # select(-other_dispair, -other_joy)
 
 
-ordered_country <- clean_countries %>%
-  select(country) %>%
-  arrange(country) %>%
-  distinct(country)
 
-# us_pattern <- "[u]*[. ][a]"
-# 
-# usa <- boing_candy_long$country %>%
-#   str_detect(us_pattern)
 
