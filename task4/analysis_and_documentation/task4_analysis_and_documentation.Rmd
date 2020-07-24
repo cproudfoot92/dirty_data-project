@@ -1,0 +1,62 @@
+---
+title: "Task 4 - Halloween Candy Data"
+author: "Chris Proudfoot"
+date: "24/07/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r warning=FALSE,message=FALSE}
+library(tidyverse)
+library(here)
+candy <- read_csv(here("clean_data/boing_candy_clean.csv"))
+```
+
+
+### 1. What is the total number of candy ratings given across the three years. (number of candy ratings, not number of raters. Don’t count missing values)
+
+
+```{r}
+number_of_ratings <- nrow(candy)
+
+number_of_ratings  
+```
+The ratings only contains ratings(no NAs) so I counted the number of rows which returned 222214.
+
+
+### 4. What was the average age of people who are going out trick or treating and the average age of people 3. not going trick or treating?
+
+
+```{r}
+average_age <- candy %>%
+  filter(!is.na(going_trick_or_treating), !is.na(age)) %>%
+  group_by(going_trick_or_treating) %>%
+  summarise(mean_age = mean(age)
+            )
+average_age
+```
+First I had to remove any NA values from both the age and going_trick_or_treating columns. Then I gouped them by who was going and who was not. Finally I summerised these by the mean of the age column,
+
+
+### 3. For each of joy, despair and meh, which candy bar revived the most of these ratings?
+
+
+```{r}
+candy_ratings_totalled <- candy %>%
+  group_by(rating, candy) %>%
+  summarise(count_rating = n()) %>%
+  filter(count_rating == max(count_rating))
+
+
+candy_ratings_totalled
+```
+
+
+```{r}
+# dispair_starburst <- candy %>%
+  
+```
+
