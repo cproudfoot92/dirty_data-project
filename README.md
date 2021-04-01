@@ -1,2 +1,2 @@
 # dirty_data-project
-Week 4 project at CodeClan. Cleaning and analysing data.
+In week 4 of my CodeClan journey, we were task with the dirty data project. This involved cleaning, wrangling and analysis various data sets with varying degrees of 'dirtiness'.
