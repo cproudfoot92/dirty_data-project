@@ -44,6 +44,7 @@ names(clean_2015) <- c("timestamp",
 clean_2016 <- long_2016 %>%
   select(Timestamp,
          `How old are you?`,
+         `Your gender:`,
          `Are you going actually going trick or treating yourself?`,
          `Which country do you live in?`,
          `Please list any items not included above that give you JOY.`,
@@ -53,6 +54,7 @@ clean_2016 <- long_2016 %>%
 
 names(clean_2016) <- c("timestamp",
                        "age",
+                       "gender",
                        "going_trick_or_treating",
                        "country",
                        "other_joy", 
@@ -63,6 +65,7 @@ names(clean_2016) <- c("timestamp",
 clean_2017 <- long_2017 %>%
   select(`Internal ID`,
          `Q3: AGE`,
+         `Q2: GENDER`,
          `Q1: GOING OUT?`,
          `Q4: COUNTRY`,
          `Q7: JOY OTHER`,
@@ -71,6 +74,7 @@ clean_2017 <- long_2017 %>%
 
 names(clean_2017) <- c("id",
                        "age",
+                       "gender",
                        "going_trick_or_treating",
                        "country",
                        "other_joy", 
@@ -90,6 +94,7 @@ boing_candy_wide <- boing_boing_candy %>%
 boing_candy_long <- boing_candy_wide %>%
   pivot_longer(cols = -c(timestamp,
                          age,
+                         gender,
                          going_trick_or_treating,
                          other_joy, other_dispair,
                          country,
@@ -166,27 +171,25 @@ boing_candy_long <- boing_candy_wide %>%
 # clean age column
 age_cleaned <- boing_candy_long %>%
 # extract all numeric data from age
-  mutate(clean_age = 
-           str_extract(age, "[0-9]*.")
-         ) %>%
-  mutate(clean_age = as.integer(clean_age)
+  mutate(age = str_extract(age, "\\d*$"),
+         age = as.numeric(age)
          ) %>%
 # Remove any age over the 122
-  mutate(clean_age = 
-           if_else(clean_age <= 122, clean_age, NA_integer_)
+  mutate(age = 
+           if_else(age <= 122, age, NA_real_)
          ) %>%
 # I made the assumption that the numbers in the country column were ages incorrectly filled out.
 # I extracted all the numeric data from the country column.
   mutate(country_age = 
-           str_extract(country, "[0-9]*.")
+           str_extract(country, "\\d+")
          ) %>%
   mutate(country_age = as.integer(country_age)
          ) %>%
 # Combined the two extracted age variables and replaced the old age column.
   mutate(age = 
-           coalesce(clean_age, country_age)
+           coalesce(age, country_age)
          ) %>%
-  select(-clean_age, -country_age, -other_dispair, -other_joy)
+  select(-country_age, -other_dispair, -other_joy)
 
 # create patterns for srt_detect
 usa_pattern <- "[u]* [s]* [a]|usa|ussa|us|
@@ -235,12 +238,15 @@ countries_cleaned <- age_cleaned %>%
   mutate(country =
            str_to_title(country)
          )
+
+
   
-boing_candy_clean <- clean_countries %>%
+boing_candy_clean <- countries_cleaned %>%
   filter(!is.na(rating))
   
 write.csv(boing_candy_clean, "clean_data/boing_candy_clean.csv")
   
+
 
 
 

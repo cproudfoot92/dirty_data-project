@@ -371,28 +371,30 @@ summary {
 
 <pre class="r"><code>library(tidyverse)
 library(here)
+library(lubridate)
 candy &lt;- read_csv(here(&quot;clean_data/boing_candy_clean.csv&quot;))</code></pre>
 <div id="what-is-the-total-number-of-candy-ratings-given-across-the-three-years.-number-of-candy-ratings-not-number-of-raters.-dont-count-missing-values" class="section level3">
 <h3>1. What is the total number of candy ratings given across the three years. (number of candy ratings, not number of raters. Don’t count missing values)</h3>
 <pre class="r"><code>number_of_ratings &lt;- nrow(candy)
 
 number_of_ratings  </code></pre>
-<pre><code>## [1] 222214</code></pre>
+<pre><code>## [1] 592103</code></pre>
 <p>The ratings only contains ratings(no NAs) so I counted the number of rows which returned 222214.</p>
 </div>
-<div id="what-was-the-average-age-of-people-who-are-going-out-trick-or-treating-and-the-average-age-of-people-3.-not-going-trick-or-treating" class="section level3">
-<h3>4. What was the average age of people who are going out trick or treating and the average age of people 3. not going trick or treating?</h3>
+<div id="what-was-the-average-age-of-people-who-are-going-out-trick-or-treating-and-the-average-age-of-people-not-going-trick-or-treating" class="section level3">
+<h3>2. What was the average age of people who are going out trick or treating and the average age of people not going trick or treating?</h3>
 <pre class="r"><code>average_age &lt;- candy %&gt;%
   filter(!is.na(going_trick_or_treating), !is.na(age)) %&gt;%
   group_by(going_trick_or_treating) %&gt;%
   summarise(mean_age = mean(age)
-            )
-average_age</code></pre>
+            )</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>average_age</code></pre>
 <pre><code>## # A tibble: 2 x 2
 ##   going_trick_or_treating mean_age
 ##   &lt;chr&gt;                      &lt;dbl&gt;
-## 1 No                          41.1
-## 2 Yes                         36.7</code></pre>
+## 1 No                          39.2
+## 2 Yes                         35.3</code></pre>
 <p>First I had to remove any NA values from both the age and going_trick_or_treating columns. Then I gouped them by who was going and who was not. Finally I summerised these by the mean of the age column,</p>
 </div>
 <div id="for-each-of-joy-despair-and-meh-which-candy-bar-revived-the-most-of-these-ratings" class="section level3">
@@ -400,18 +402,94 @@ average_age</code></pre>
 <pre class="r"><code>candy_ratings_totalled &lt;- candy %&gt;%
   group_by(rating, candy) %&gt;%
   summarise(count_rating = n()) %&gt;%
-  filter(count_rating == max(count_rating))
-
-
-candy_ratings_totalled</code></pre>
+  filter(count_rating == max(count_rating))</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;rating&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>candy_ratings_totalled</code></pre>
 <pre><code>## # A tibble: 3 x 3
 ## # Groups:   rating [3]
-##   rating  candy         count_rating
-##   &lt;chr&gt;   &lt;chr&gt;                &lt;int&gt;
-## 1 DESPAIR mary_janes           10677
-## 2 JOY     100_grand_bar         4852
-## 3 MEH     100_grand_bar         1307</code></pre>
-<pre class="r"><code># dispair_starburst &lt;- candy %&gt;%</code></pre>
+##   rating  candy                    count_rating
+##   &lt;chr&gt;   &lt;chr&gt;                           &lt;int&gt;
+## 1 DESPAIR mary_janes                      10677
+## 2 JOY     any_full_sized_candy_bar         7589
+## 3 MEH     jolly_ranchers                   2151</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>How many people rated Starburst as despair?</li>
+</ol>
+<pre class="r"><code>dispair_starburst &lt;- candy %&gt;%
+  filter(candy == &quot;starburst&quot;, rating == &quot;DESPAIR&quot;) %&gt;%
+  group_by(candy) %&gt;%
+  summarise(rating = n())</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>dispair_starburst</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   candy     rating
+##   &lt;chr&gt;      &lt;int&gt;
+## 1 starburst   1990</code></pre>
+<pre class="r"><code>candy_rating_points &lt;- candy %&gt;%
+  mutate(rating_points =
+           case_when(str_detect(rating, &quot;DESPAIR&quot;) ~ -1,
+                     str_detect(rating, &quot;JOY&quot;) ~ 1,
+                     str_detect(rating, &quot;MEH&quot;) ~ 0
+                     )
+         )
+
+candy_rating_points</code></pre>
+<pre><code>## # A tibble: 592,103 x 10
+##       X1 timestamp             age going_trick_or_… gender country id    candy
+##    &lt;dbl&gt; &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;            &lt;lgl&gt;  &lt;lgl&gt;   &lt;lgl&gt; &lt;chr&gt;
+##  1     1 2015-10-23 08:46:20    35 No               NA     NA      NA    butt…
+##  2     2 2015-10-23 08:46:20    35 No               NA     NA      NA    mary…
+##  3     3 2015-10-23 08:46:20    35 No               NA     NA      NA    any_…
+##  4     4 2015-10-23 08:46:20    35 No               NA     NA      NA    brac…
+##  5     5 2015-10-23 08:46:20    35 No               NA     NA      NA    bubb…
+##  6     6 2015-10-23 08:46:20    35 No               NA     NA      NA    cadb…
+##  7     7 2015-10-23 08:46:20    35 No               NA     NA      NA    snic…
+##  8     8 2015-10-23 08:46:20    35 No               NA     NA      NA    hers…
+##  9     9 2015-10-23 08:46:20    35 No               NA     NA      NA    dots 
+## 10    10 2015-10-23 08:46:20    35 No               NA     NA      NA    fuzz…
+## # … with 592,093 more rows, and 2 more variables: rating &lt;chr&gt;,
+## #   rating_points &lt;dbl&gt;</code></pre>
+<pre class="r"><code>candy_rating_points %&gt;%
+  group_by(gender, candy) %&gt;%
+  summarise(total_points = sum(rating_points))</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;gender&#39; (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 85 x 3
+## # Groups:   gender [1]
+##    gender candy                                   total_points
+##    &lt;lgl&gt;  &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 NA     100_grand_bar                                   3143
+##  2 NA     any_full_sized_candy_bar                        7182
+##  3 NA     black_jacks                                    -5099
+##  4 NA     blue_m_ms                                       1447
+##  5 NA     bonkers                                        -4020
+##  6 NA     bottle_caps                                    -1076
+##  7 NA     box_o_raisins                                  -5774
+##  8 NA     brach_products_not_including_candy_corn        -2712
+##  9 NA     bubble_gum                                     -2395
+## 10 NA     butterfinger                                    4690
+## # … with 75 more rows</code></pre>
+<p>Most popular candy in each year</p>
+<pre class="r"><code>candy_rating_points %&gt;%
+  mutate(timestamp = as_date(timestamp)) %&gt;%
+  group_by(timestamp, candy) %&gt;%
+  summarise(total_points = sum(rating_points)) %&gt;%
+  filter(total_points == max(total_points))</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;timestamp&#39; (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 32 x 3
+## # Groups:   timestamp [17]
+##    timestamp  candy                      total_points
+##    &lt;date&gt;     &lt;chr&gt;                             &lt;dbl&gt;
+##  1 2015-10-23 any_full_sized_candy_bar            794
+##  2 2015-10-24 reese_s_peanut_butter_cups          349
+##  3 2015-10-25 kit_kat                             217
+##  4 2015-10-26 any_full_sized_candy_bar            132
+##  5 2015-10-27 any_full_sized_candy_bar             77
+##  6 2015-10-28 any_full_sized_candy_bar           1764
+##  7 2015-10-29 any_full_sized_candy_bar           1104
+##  8 2015-10-30 reese_s_peanut_butter_cups          185
+##  9 2015-10-31 kit_kat                               9
+## 10 2015-10-31 milky_way                             9
+## # … with 22 more rows</code></pre>
 </div>
 
 

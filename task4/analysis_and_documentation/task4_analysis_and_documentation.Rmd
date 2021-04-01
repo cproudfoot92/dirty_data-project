@@ -12,9 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r warning=FALSE,message=FALSE}
 library(tidyverse)
 library(here)
-candy <- read_csv(here("clean_data/boing_candy_clean.csv"))
+library(lubridate)
 ```
 
+```{r}
+candy <- read_csv(here("clean_data/boing_candy_clean.csv"), col_types = cols(gender = col_character(), country = col_character()))
+```
 
 ### 1. What is the total number of candy ratings given across the three years. (number of candy ratings, not number of raters. Don’t count missing values)
 
@@ -27,7 +30,7 @@ number_of_ratings
 The ratings only contains ratings(no NAs) so I counted the number of rows which returned 222214.
 
 
-### 4. What was the average age of people who are going out trick or treating and the average age of people 3. not going trick or treating?
+### 2. What was the average age of people who are going out trick or treating and the average age of people not going trick or treating?
 
 
 ```{r}
@@ -55,8 +58,58 @@ candy_ratings_totalled
 ```
 
 
+4. How many people rated Starburst as despair?
+
+
 ```{r}
-# dispair_starburst <- candy %>%
+dispair_starburst <- candy %>%
+  filter(candy == "starburst", rating == "DESPAIR") %>%
+  group_by(candy) %>%
+  summarise(rating = n())
+
+dispair_starburst
   
+```
+
+
+```{r}
+candy_rating_points <- candy %>%
+  mutate(rating_points =
+           case_when(str_detect(rating, "DESPAIR") ~ -1,
+                     str_detect(rating, "JOY") ~ 1,
+                     str_detect(rating, "MEH") ~ 0
+                     )
+         )
+
+candy_rating_points
+```
+
+```{r}
+candy_rating_points %>%
+  group_by(gender, candy) %>%
+  summarise(total_points = sum(rating_points)) %>%
+  group_by(gender) %>% 
+  filter(total_points == max(total_points))
+```
+
+Most popular candy in each year
+
+```{r}
+candy_rating_points %>%
+  mutate(timestamp = year(timestamp)) %>%
+  group_by(timestamp, candy) %>%
+  summarise(total_points = sum(rating_points)) %>%
+  filter(total_points == max(total_points))
+```
+
+```{r}
+candy_rating_points %>% 
+  mutate(country = case_when(!country %in% c(
+    "United Kingdom", "Canada", "United States", NA) ~ "All other countries",
+    TRUE ~ country)) %>% 
+  group_by(country, candy) %>% 
+  summarise(total_points = sum(rating_points)) %>% 
+  group_by(country) %>%
+  filter(total_points == max(total_points))
 ```
 
